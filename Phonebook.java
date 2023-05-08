@@ -7,12 +7,6 @@ public class Phonebook {
     private boolean isRunning;
 
     public Phonebook() {
-        Entry entry1 = new Entry("John", "Rea", "204 Olivine Drive", "Bellingham", "509-423-1459");
-        Entry entry2 = new Entry("Bob", "Bobson", "204 Olivine Drive", "Bellingham", "233-175-8842");
-        Entry entry3 = new Entry("Banann", "Banner", "Bannanna", "Lacy", "509-552-2222");
-        book.add(entry1);
-        book.add(entry2);
-        book.add(entry3);
         start();
     }
 
