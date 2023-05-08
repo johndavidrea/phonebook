@@ -1,3 +1,4 @@
+// The EntryList class is a linked list designed to hold the entries of our phonebook
 package phonebook;
 
 public class EntryList {
@@ -9,6 +10,7 @@ public class EntryList {
         size = 0;
     }
 
+    // Adds an entry to the end of the linked list
     public void add(Entry newData) {
         if (size == 0) {
             head = new Node(newData);
@@ -23,6 +25,7 @@ public class EntryList {
         size++;
     }
 
+    // Returns a specified entry from the linked list
     public Entry get(int index) {
         Node current = head;
         for (int i = 1; i < index; i++) {
@@ -31,15 +34,18 @@ public class EntryList {
         return current.getEntry();
     }
 
+    // Returns the size of the linked list
     public int size() {
         return size;
     }
 
+    // Removes a specified entry from the linked list
     public void remove(int index) {
         moveToLast(index);
         removeLast();
     }
 
+    // Removes the last entry of the linked list
     public void removeLast() {
         Node current = head;
         if (current.getNext() == null) {
@@ -53,6 +59,7 @@ public class EntryList {
         size--;
     }
 
+    // Moves a specified entry to the end of the linked list
     public void moveToLast(int index) {
         Node current = head;
         for (int i = 1; i < (index); i++) {

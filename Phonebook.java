@@ -1,15 +1,20 @@
+// The Phonebook class contains the code for managing our console phonebook
+// It contains the methods needed to receive and enact commands from the user
 package phonebook;
 import java.util.Scanner;
 
 public class Phonebook {
-    public EntryList book = new EntryList();
-    Scanner input = new Scanner(System.in);
+    private final EntryList book;
+    private final Scanner input;
     private boolean isRunning;
 
     public Phonebook() {
+        book = new EntryList();
+        input = new Scanner(System.in);
         start();
     }
 
+    //Initializes the program and starts its main loop
     private void start() {
         isRunning = true;
         System.out.println("Welcome to the console phonebook!");
@@ -20,8 +25,8 @@ public class Phonebook {
         }
     }
 
+    // Handles getting and interpreting main-menu commands from the user
     private void getCommand() {
-
         String buffer = input.nextLine();
 
         if (buffer.toLowerCase().contains("list") || buffer.toLowerCase().contains("1")) {
@@ -48,13 +53,19 @@ public class Phonebook {
         System.out.println("What would you like to do next?");
     }
 
-    public void listEntries() {
+    // Lists the entries contained in the phonebook
+    private void listEntries() {
+        if (book.size() == 0) {
+            System.out.println("The phonebook is currently empty.");
+            return;
+        }
         for (int i = 1; i <= book.size(); i++) {
             Entry buffer = book.get(i);
             System.out.println("Entry " + (i) + ": " + buffer.getFullName());
         }
     }
 
+    // Handles viewing the full details about a specific entry
     private void viewEntry() {
         System.out.println("Which entry would you like to view?");
         listEntries();
@@ -66,7 +77,8 @@ public class Phonebook {
         book.get(index).printEntry();
     }
 
-    public void addEntry() {
+    // Adds a new entry to the phonebook
+    private void addEntry() {
         System.out.println("Adding a new entry to the phonebook.");
         System.out.println("Please enter the first name:");
         String firstName = input.nextLine();
@@ -86,7 +98,9 @@ public class Phonebook {
         book.add(buffer);
     }
 
-    public void removeEntry() {
+    // Removes an entry from the phonebook
+    private void removeEntry() {
+        // Have the user select which entry to remove, then verify that the selection is valid
         System.out.println("Which entry would you like to remove?");
         listEntries();
         int index = getIndex();
@@ -97,7 +111,7 @@ public class Phonebook {
         System.out.println(book.get(index).getFullName() + " has been selected.");
         System.out.println("Do you want to delete this entry? Yes/No");
         String confirmDeletion = input.nextLine();
-
+        // Get confirmation from the user before deleting the entry
         if (confirmDeletion.toLowerCase().contains("yes")) {
             System.out.println(book.get(index).getFullName() + " has been removed from the phonebook.");
             book.remove(index);
@@ -108,7 +122,9 @@ public class Phonebook {
         }
     }
 
-    public void modifyEntry() {
+    // Modifies an entry in the phonebook
+    private void modifyEntry() {
+        // Have the user select which entry to modify, then verify that the selection is valid
         System.out.println("Which entry would you like to modify?");
         listEntries();
         int index = getIndex();
@@ -116,7 +132,7 @@ public class Phonebook {
             System.out.println("Invalid selection, returning to main menu.");
             return;
         }
-
+        // Have the user decide which subfield to modify, then get the new value for that subfield
         System.out.println(book.get(index).getFullName() + " selected. Which subfield would you like to change?");
         listVarTypes();
         String buffer = input.nextLine();
@@ -146,33 +162,35 @@ public class Phonebook {
         }
     }
 
-    public void search() {
+    // Searches the phonebook for information matching the search term
+    private void search() {
+        // Get a term from the user and search the phonebook for it, track how many matches were found
         int matchesFound = 0;
         System.out.println("You can search by first name, last name, address, city, or phone number.");
         String searchTerm = input.nextLine();
         for (int i = 1; i <= book.size(); i++) {
             if (book.get(i).getFirstName().toUpperCase().contains(searchTerm.toUpperCase())) {
-                System.out.println("Matching first name found at entry number: " + (i));
+                System.out.println("Matching first name found at entry number " + (i) + ": " + book.get(i).getFullName());
                 matchesFound++;
             }
             if (book.get(i).getLastName().toUpperCase().contains(searchTerm.toUpperCase())) {
-                System.out.println("Matching last name found at entry number: " + (i));
+                System.out.println("Matching last name found at entry number " + (i) + ": " + book.get(i).getFullName());
                 matchesFound++;
             }
             if (book.get(i).getAddress().toUpperCase().contains(searchTerm.toUpperCase())) {
-                System.out.println("Matching address found at entry number: " + (i));
+                System.out.println("Matching address found at entry number " + (i) + ": " + book.get(i).getFullName());
                 matchesFound++;
             }
             if (book.get(i).getCity().toUpperCase().contains(searchTerm.toUpperCase())) {
-                System.out.println("Matching city found at entry number: " + (i));
+                System.out.println("Matching city found at entry number " + (i) + ": " + book.get(i).getFullName());
                 matchesFound++;
             }
             if (book.get(i).getPhoneNumber().toUpperCase().contains(searchTerm.toUpperCase())) {
-                System.out.println("Matching phone number found at entry number: " + (i));
+                System.out.println("Matching phone number found at entry number " + (i) + ": " + book.get(i).getFullName());
                 matchesFound++;
             }
         }
-
+        // Tell the user how many matches were found
         if (matchesFound == 0) {
             System.out.println("No matches were found.");
         } else if (matchesFound == 1) {
@@ -182,8 +200,9 @@ public class Phonebook {
         }
     }
 
-    public void printHelp() {
-        System.out.println("Here are the commands availible to you:");
+    // Prints a list of the available commands
+    private void printHelp() {
+        System.out.println("Here are the commands available to you:");
         System.out.println("[1] List entries");
         System.out.println("[2] View entry");
         System.out.println("[3] Add entry");
@@ -194,7 +213,8 @@ public class Phonebook {
         System.out.println("[8] Exit");
     }
 
-    public int getIndex() {
+    // Gets the correct index number of an entry based on an identifier from the user
+    private int getIndex() {
         String identifier = input.nextLine();
         for(int i = 1; i <= book.size(); i++) {
             if(identifier.toLowerCase().contains(book.get(i).getFirstName().toLowerCase()) ||
@@ -204,10 +224,12 @@ public class Phonebook {
                 return i;
             }
         }
+        // If no matching entry is found, return -1 to indicate the failure to find a matching index
         return -1;
     }
 
-    public void listVarTypes() {
+    // Lists the different information contained in an Entry object
+    private void listVarTypes() {
         System.out.println("[1] First name");
         System.out.println("[2] Last name");
         System.out.println("[3] Address");

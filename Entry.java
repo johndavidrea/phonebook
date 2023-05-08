@@ -1,3 +1,4 @@
+// The Entry class holds the data for a single entry in the phonebook
 package phonebook;
 
 public class Entry {
@@ -7,7 +8,7 @@ public class Entry {
     private String city;
     private String phoneNumber;
 
-    Entry (String firstName, String lastName, String address, String city, String phoneNumber) {
+    public Entry (String firstName, String lastName, String address, String city, String phoneNumber) {
         setFirstName(firstName);
         setLastName(lastName);
         setAddress(address);
@@ -15,12 +16,14 @@ public class Entry {
         setPhoneNumber(phoneNumber);
     }
 
+    // Prints the full information of an entry
     public void printEntry() {
         System.out.println(firstName + " " + lastName);
         System.out.println(address + ", " + city);
         System.out.println(phoneNumber);
     }
 
+    // Setters and getters
     public String getFullName() {
         return firstName + " " + lastName;
     }

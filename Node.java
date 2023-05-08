@@ -1,10 +1,10 @@
+// The Node class contains the information of a single node for our linked list
 package phonebook;
 
 public class Node {
     Node next;
     Entry entry;
 
-    // constructors
     public Node (Entry newEntry) {
         this.entry = newEntry;
         next = null;
